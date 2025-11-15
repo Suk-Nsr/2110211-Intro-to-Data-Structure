@@ -1,18 +1,18 @@
 int depth(node *n)
 {
-  if (n == NULL)
+  if (n == nullptr)
   {
     return -1;
   }
-  else if (n->left_child == NULL && n->right_sibling == NULL)
+  else if (n->left_child == nullptr && n->right_sibling == nullptr)
   {
     return 0;
   }
-  else if (n->left_child == NULL)
+  else if (n->left_child == nullptr)
   {
     return depth(n->right_sibling);
   }
-  else if (n->right_sibling == NULL)
+  else if (n->right_sibling == nullptr)
   {
     return depth(n->left_child) + 1;
   }
