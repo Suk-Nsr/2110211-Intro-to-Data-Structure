@@ -1,23 +1,22 @@
 void shift(int k)
 {
-	if (k == 0 || this->mSize <= 1)
+	if (this->mSize == 0 || this->mSize == 1)
 	{
 		return;
 	}
 
-	auto it = this->mHeader->next;
-	int n = this->mSize;
-	int shifted = ((k % n) + n) % n;
+	int timeToRotate = ((k % (int)this->mSize) + (int)this->mSize) % (int)this->mSize;
+	auto it = this->begin();
 
-	while (shifted--)
+	for (int i = 0; i < timeToRotate; ++i)
 	{
-		it = it->next;
+		++it;
 	}
 
 	this->mHeader->next->prev = this->mHeader->prev;
 	this->mHeader->prev->next = this->mHeader->next;
-	this->mHeader->next = it;
-	this->mHeader->prev = it->prev;
-	it->prev->next = this->mHeader;
-	it->prev = this->mHeader;
+	this->mHeader->next = it.ptr;
+	this->mHeader->prev = it.ptr->prev;
+	it.ptr->prev->next = this->mHeader;
+	it.ptr->prev = this->mHeader;
 }
