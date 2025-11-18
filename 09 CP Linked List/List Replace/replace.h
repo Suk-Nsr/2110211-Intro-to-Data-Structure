@@ -4,20 +4,20 @@ void replace(const T &x, list<T> &y)
 
   while (it != this->end())
   {
-    if (*it == x)
+    if (it.ptr->data == x)
     {
-        auto insertPos = it;
+      auto insertPos = it;
 
-        for (auto& item : y)
-        {
-            insert(insertPos, item);
-        }
+      for (auto data : y)
+      {
+        insert(insertPos, data);
+      }
 
-        it = this->erase(it);
+      it = erase(it);
     }
     else
     {
-        ++it;
+      ++it;
     }
   }
 }
