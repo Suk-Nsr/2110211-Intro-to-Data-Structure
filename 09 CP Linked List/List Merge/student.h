@@ -5,28 +5,23 @@
 template <typename T>
 void CP::list<T>::merge(CP::list<CP::list<T>> &ls)
 {
-  for (CP::list<T> &i : ls)
+  for (auto &list : ls)
   {
-    // skip empty sublists
-    if (i.mHeader->next == i.mHeader)
+    if (list.mSize == 0)
+    {
       continue;
+    }
 
-    // splice i at the end of *this
-    auto first = i.mHeader->next;
-    auto last = i.mHeader->prev;
-    auto tail = this->mHeader->prev;
-    this->mSize += i.size();
+    this->mHeader->prev->next = list.mHeader->next;
+    list.mHeader->prev->next = this->mHeader;
+    list.mHeader->next->prev = this->mHeader->prev;
+    this->mHeader->prev = list.mHeader->prev;
 
-    tail->next = first;
-    first->prev = tail;
+    list.mHeader->next = list.mHeader;
+    list.mHeader->prev = list.mHeader;
 
-    last->next = this->mHeader;
-    this->mHeader->prev = last;
-
-    // leave i empty
-    i.mHeader->next = i.mHeader;
-    i.mHeader->prev = i.mHeader;
-    i.mSize = 0;
+    this->mSize = this->mSize + list.mSize;
+    list.mSize = 0;
   }
 }
 
