@@ -1,37 +1,30 @@
 void splitList(list<T> &list1, list<T> &list2)
 {
-    if (this->empty())
+    if (this->mSize > 0)
     {
-        return;
-    }   
-    else
-    {
-        size_t checkpoint = (this->mSize / 2);
-        auto it1 = this->begin(), it2 = this->begin();
+        int middlePos = (this->mSize + 1) / 2;
+        auto it = this->begin();
 
-        for (size_t i = 0; i < this->mSize - checkpoint; ++i)
+        for (int i = 0; i < middlePos; ++i)
         {
-            ++it1;
-            ++it2;
+            ++it;
         }
 
-        --it1;
-
         list1.mHeader->prev->next = this->mHeader->next;
-        this->mHeader->next->prev = list1.mHeader->prev;
-        list1.mHeader->prev = it1.ptr;
-        it1.ptr->next = list1.mHeader;
+        it.ptr->prev->next = list1.mHeader;
+        this->mHeader->next->prev = list1.mHeader;
+        list1.mHeader->prev = it.ptr->prev;
 
-        list2.mHeader->prev->next = it2.ptr;
-        it2.ptr->prev = list2.mHeader->prev;
-        list2.mHeader->prev = this->mHeader->prev;
+        list2.mHeader->prev->next = it.ptr;
         this->mHeader->prev->next = list2.mHeader;
+        it.ptr->prev = list2.mHeader->prev;
+        list2.mHeader->prev = this->mHeader->prev;
 
         this->mHeader->next = this->mHeader;
         this->mHeader->prev = this->mHeader;
 
-        list1.mSize += (this->mSize - (this->mSize / 2));
-        list2.mSize += this->mSize / 2;
+        list1.mSize += middlePos;
+        list2.mSize += (this->mSize - middlePos);
         this->mSize = 0;
     }
 }
